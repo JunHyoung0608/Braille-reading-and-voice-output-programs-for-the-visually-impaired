@@ -1,2 +1,8 @@
 # Capstone-Project
-project to read Braille for the blind and extract it as a voice
+시각장애인을 위한 점자를 읽어 음성으로 추출하는 프로젝트
+
+# 연구 팀원
++ 김광민
++ 김예빈
++ 이준형
++ 채민석
