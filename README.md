@@ -1,7 +1,7 @@
 # Capstone-Project of JUN
 이 branch는 Capstone-Project의 JUN의 연구 branch이다.
 # 점자
-![점자](./image/jumja.jpg)
+![점자](./README_image/jumja.jpg)
 
 |종류|개수|
 |------|---:|
