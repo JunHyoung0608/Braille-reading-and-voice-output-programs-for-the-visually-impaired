@@ -1,1 +1,17 @@
-#텍스트 파일을 받아와 하드웨어 스피커로 출력을 목표로 한다.
+from gtts import gTTS
+textfile = "./texts/text0.txt"
+save_mp3 = "./sound/sound.mp3"
+language = "ko"
+
+def trans_mp3(textfile,language,ss=False):
+    sp = gTTS(
+        text=textfile,
+        lang=language,
+        slow=ss
+    )
+    sp.save(save_mp3)
+
+
+
+if __name__ == "__main__":
+    trans_mp3(textfile,language)
