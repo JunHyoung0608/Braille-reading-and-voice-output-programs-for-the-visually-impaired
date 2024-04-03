@@ -2,7 +2,7 @@ from gtts import gTTS
 import playsound                                    #pip install playsound==1.2.2
 import os.path
 from os import path
-text_file = "./texts/text0.txt"
+text_file = "./texts/text3.txt"
 save_mp3 = "./sound/sound.mp3"
 language = "ko"
 
