@@ -1,0 +1,6 @@
+./yolov5/dataset/valid/images\KakaoTalk_20240316_003247513_05_jpg.rf.4aae85e2db358b41422467b0fbfa7ffe.jpg
+./yolov5/dataset/valid/images\KakaoTalk_20240316_003247513_07_jpg.rf.582013b04a47cc00eeee0e26e00e877e.jpg
+./yolov5/dataset/valid/images\KakaoTalk_20240316_003247513_10_jpg.rf.05170fd7f17045cd49a83a0d4959c40e.jpg
+./yolov5/dataset/valid/images\KakaoTalk_20240316_003247513_11_jpg.rf.6741ccaf68dc11194f5ce6ffb748e3fc.jpg
+./yolov5/dataset/valid/images\KakaoTalk_20240316_004226308_04_jpg.rf.7e9dd6f5360f6850dab5d9fd3e73b0b9.jpg
+./yolov5/dataset/valid/images\KakaoTalk_20240316_004226308_07_jpg.rf.04b2bb2d34489b307d4ea9231ed3b5ff.jpg
