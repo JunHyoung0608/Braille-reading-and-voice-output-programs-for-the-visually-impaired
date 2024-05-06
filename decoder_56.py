@@ -1,3 +1,7 @@
+#5/6 11:38pm
+#현재 상태
+#초성: 0, 중성: 0, 종성: 0, 약자: 0, 약어 : x, 숫자: 0, 문장부호: x
+
 INITIAL_LIST = {8: 'ㄱ', 9: 'ㄴ', 10: 'ㄷ', 16: 'ㄹ', 17: 'ㅁ', 24: 'ㅂ', 32: 'ㅅ', 40: 'ㅈ', 48: 'ㅊ', 11: 'ㅋ', 19: 'ㅌ', 25: 'ㅍ', 26: 'ㅎ'}
 NEUTRALITY_LIST = {35: 'ㅏ', 28: 'ㅑ', 14: 'ㅓ', 49: 'ㅕ', 37: 'ㅗ', 44: 'ㅛ', 13: 'ㅜ', 41: 'ㅠ', 42: 'ㅡ', 21: 'ㅣ', 23: 'ㅐ', 29: 'ㅔ', 12: 'ㅖ', 39: 'ㅘ', 61: 'ㅚ', 15: 'ㅝ', 58: 'ㅢ'}
 FINAL_LIST = {1: 'ㄱ', 18: 'ㄴ', 20: 'ㄷ', 2: 'ㄹ', 34: 'ㅁ', 3: 'ㅂ', 4: 'ㅅ', 54: 'ㅇ', 5: 'ㅈ', 6: 'ㅊ', 22: 'ㅋ', 38: 'ㅌ', 50: 'ㅍ', 52: 'ㅎ', 12: 'ㅆ'}
@@ -9,7 +13,7 @@ PASS = {0:'00'}
 JUMP = {100:' '}
 NUM = [60]
 
-input_data = [9, 9, 42, 18, 100, 26, 23, 54, 0, 24, 45, 26, 3, 9, 21, 10, 60, 17,8,35]
+input_data = [9, 9, 42, 18, 100, 26, 23, 54, 0, 24, 45, 26, 3, 9, 21, 10, 60, 17,8,35,35,28,49]
 
 result = []
 prev_type = None
@@ -29,10 +33,11 @@ for i, code in enumerate(input_data):
         else:
             prev_type = 'INITIAL'
     elif code in NEUTRALITY_LIST:
-        if prev_type == 'INITIAL' or prev_type == 'FINAL':
+        if prev_type != 'INITIAL':
+            result.append('ㅇ')
             result.append(NEUTRALITY_LIST[code])
         else:
-            result[-1] += NEUTRALITY_LIST[code]
+            result.append(NEUTRALITY_LIST[code])
         prev_type = 'NEUTRALITY'
     elif code in FINAL_LIST:
         result.append(FINAL_LIST[code])
@@ -61,7 +66,6 @@ for i, code in enumerate(input_data):
         prev_type = 'SHORT_AF'
     elif code in PASS:
         result.append(PASS[code])
-
     elif code in JUMP:
         result.append(JUMP[code])
     elif code in NUM:
