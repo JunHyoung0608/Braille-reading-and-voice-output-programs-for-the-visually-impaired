@@ -60,7 +60,8 @@ for i, code in enumerate(input_data):
             result[-1] += SHORT_LIST_AF[code]
         prev_type = 'SHORT_AF'
     elif code in PASS:
-        result[-1] += PASS[code]
+        result.append(PASS[code])
+
     elif code in JUMP:
         result.append(JUMP[code])
     elif code in NUM:
