@@ -1,4 +1,4 @@
-#5/6 11:38pm
+#5/9 2:38pm
 #현재 상태
 #초성: 0, 중성: 0, 종성: 0, 약자: 0, 약어 : x, 숫자: 0, 문장부호: x
 
@@ -9,12 +9,14 @@ AND_LIST = {14: '그래서', 9: '그러나', 18: '그러면', 34: '그러므로'
 NUM_LIST = {1: '1', 3: '2', 9: '3', 25: '4', 17: '5', 11: '6', 27: '7', 19: '8', 10: '9', 26: '0'}
 SHORT_LIST_BE = {43: '가', 9: '나', 10: '다', 17: '마', 24: '바', 7: '사', 40: '자', 11: '카', 19: '타', 25: '파', 26: '하'}
 SHORT_LIST_AF = {57: '억', 62: '언', 30: '얼', 33: '연', 51: '열', 59: '영', 45: '옥', 55: '온', 63: '옹', 27: '운', 47: '울', 53: '은', 46: '을', 31: '인'}
+#BUHO_LIST = {25:'.',38:'?',22:'!',16:',',36:'-',38:'"',52:'"'}
+# 36,36 => '~', 20,20 => '*', 32,38:''',52,4:''',16,2:':',48,6:';',32,32,32: ...
 PASS = {0:'00'}
 JUMP = {100:' '}
 NUM = [60]
 
-input_data = [9, 9, 42, 18, 100, 26, 23, 54, 0, 24, 45, 26, 3, 9, 21, 10, 60, 17,8,35,35,28,49]
-
+#input_data = [0,1,14,0,9, 9, 42, 18, 100, 26, 23, 54, 0, 24, 45, 26, 3, 9, 21, 10, 60, 17,8,35,35,28,49]
+input_data = [35,18,9,49,54,26,32,29,44,40,14,9,53,8,21,34,12,24,21,18,21,3,9,21,10,60,1]
 result = []
 prev_type = None
 next_code = None
@@ -45,13 +47,15 @@ for i, code in enumerate(input_data):
             prev_type = 'FINAL'
         else:
             prev_type = None
+
     elif code in AND_LIST:
-        if result[-1] == '1':
-            result[-1] = AND_LIST[code]
-            result.append('0')
+        if result[:2] == [0, 1] and result[2] == 0:
+            result = result[:2]  # 앞의 0과 1만 남기고 나머지 삭제
+            result.append(AND_LIST[code])
         else:
             result.append(AND_LIST[code])
         prev_type = 'AND'
+
     elif code in SHORT_LIST_BE:
         if next_code in FINAL_LIST:
             result.append(SHORT_LIST_BE[code])
