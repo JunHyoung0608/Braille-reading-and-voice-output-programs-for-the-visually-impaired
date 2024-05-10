@@ -14,7 +14,7 @@ NUM = [60]
 STRONG = [32]
 
 #input_data = [0,1,14,0,9, 9, 42, 18, 100, 26, 23, 54, 0, 24, 45, 26, 3, 9, 21, 10, 60, 17,8,35,35,28,49]
-input_data = [35,18,9,49,54,26,32,29,44,40,14,9,53,8,21,34,12,24,21,18,21,3,9,21,10,60,1]
+input_data = [0,1,14,0,35,18,9,49,54,26,32,29,44,40,14,9,53,8,21,34,12,24,21,18,21,3,9,21,10,60,1, 1, 1,0]
 result = []
 prev_type = None
 next_code = None
@@ -30,51 +30,70 @@ next_code = None
 
 def check_kind(index,data):
     result = []
+    print(data[index],end=' \t')
+                                                                                                                                                                        #숫자
+    if data[index] == 60:
+        while data[index+1] != 0:
+            index += 1; key = data[index]
+            print(key)
+            result.append(NUM_LIST[key])
+                                                                                                                                                                        #약어
+    elif (data[index] == 1) and (data[index-1] == 0) and (data[index+1] in AND_LIST) and (data[index+2] == 0):
+        index += 1; key = data[index]
+        result.append(AND_LIST[key])
+                                                                                                                                                                        #약자
+    elif data[index] in SHORT_LIST_AF:                                                                                                                                  #약자-AF
+        key = data[index]
+        result.append(SHORT_LIST_AF[key])
+    elif (data[index] in SHORT_LIST_BE) and ((data[index+1] in INITIAL_LIST) or (data[index+1] in SHORT_LIST_BE) or (data[index+1] == 0) or (data[index+1] == NUM)):    #약자-BE
+        key = data[index]
+        result.append(SHORT_LIST_BE[key])
+                                                                                                                                                                        #초성
+    elif (data[index] == STRONG) and (data[index+1] in INITIAL_LIST):                                                                                                   #초성-된소리
+        index += 1; key = data[index]
+        result.append(SHORT_LIST_BE[key])
 
-                                                                                                                                    #숫자
-    if data == NUM:
-        while data != 0:
-            index += 1
-            result.append(NUM_LIST[input_data[index]])
-                                                                                                                                    #약어
-    elif (data == 1) and (input_data[index-1] == 0) and (input_data[index+1] in AND_LIST) and (input_data[index+2] == 0):
-        index += 1
-        result.append(AND_LIST[input_data[index]])
-                                                                                                                                    #약자
-    elif data in SHORT_LIST_AF:
-        result.append(SHORT_LIST_AF[input_data[index]])
-    elif (data in SHORT_LIST_BE) and ((input_data[index+1] in INITIAL_LIST) or (input_data[index+1] in SHORT_LIST_BE) or input_data[index+1] = 0):
-        result.append(SHORT_LIST_BE[input_data[index]])
-                                                                                                                                    #초성
-    elif (data == STRONG) and (input_data[index+1] in INITIAL_LIST):
-        index += 1
-        result.append(SHORT_LIST_BE[input_data[index]])
-    elif data in INITIAL_LIST:
-        result.append(SHORT_LIST_BE[input_data[index]])
-                                                                                                                                    #중성
-                                                                                                                                    #enrmfwk cnrk
-    elif data in NEUTRALITY_LIST:
-        result.append(NEUTRALITY_LIST[input_data[index]])
-                                                                                                                                    #종성
-    elif (data in FINAL_LIST) and (input_data[index+1] in FINAL_LIST):
+    elif data[index] in INITIAL_LIST:                                                                                                                                   #초성
+        key = data[index]
+        result.append(INITIAL_LIST[key])
+                                                                                                                                                                        #중성
+                                                                                                                                                                        #두글자 중성 추가
+    elif data[index] in NEUTRALITY_LIST:                                                                                                             
+        key = data[index]
+        if (data[index-1] not in INITIAL_LIST) or (data[index-1] == 0):
+            result.append('ㅇ')
+        result.append(NEUTRALITY_LIST[key])
+                                                                                                                                                                        #종성
+    elif (data[index] in FINAL_LIST) and (data[index+1] in FINAL_LIST):                                                                                                 #종성-곁받침
         #곁받침
         a=1
-    elif (data in FINAL_LIST):
-        result.append(NEUTRALITY_LIST[input_data[index]])
-    elif data in JUMP:
-        result.append('p')
+    elif (data[index] in FINAL_LIST):                                                                                                                                   #종성
+        key = data[index]
+        result.append(FINAL_LIST[key])
 
+    elif data[index] in JUMP:                                                                                                                                           #띄어쓰기
+        result.append('p')
 
     return index+1,result
 
 
 def trans_data2(input_data):
-    for index, data in enumerate(input_data):
+    index = 0
+    txt = []
+    while len(input_data) > index:
+        index, result = check_kind(index,input_data)
+        txt += result
         
-
+        print(index+1,'\t',result)
     return txt
 
 
     
 if __name__ == "__main__":
+    input_data = [35,18,9,49,54,26,32,29,44,40,14,9,53,8,21,34,12,24,21,18,21,3,9,21,10,0,60,1,0]
+    input_data2 = [0,1,14,0,35,18,9,49,54,26,32,29,44,40,14,9,53,8,21,34,12,24,21,18,21,3,9,21,10,0,60,1, 1, 1,0]
 
+    print('input\t','index\t','value')
+    txt = trans_data2(input_data2)
+    print('----------------------------------------')
+    print('result:',txt)
