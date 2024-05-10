@@ -30,7 +30,6 @@ next_code = None
 
 def check_kind(index,data):
     result = []
-    print(data[index],end=' \t')
                                                                                                                                                                         #숫자
     if data[index] == 60:
         while data[index+1] != 0:
@@ -65,6 +64,7 @@ def check_kind(index,data):
         result.append(NEUTRALITY_LIST[key])
                                                                                                                                                                         #종성
     elif (data[index] in FINAL_LIST) and (data[index+1] in FINAL_LIST):                                                                                                 #종성-곁받침
+        index += 1
         #곁받침
         a=1
     elif (data[index] in FINAL_LIST):                                                                                                                                   #종성
@@ -81,10 +81,11 @@ def trans_data2(input_data):
     index = 0
     txt = []
     while len(input_data) > index:
+        print(input_data[index],end=' ')
         index, result = check_kind(index,input_data)
         txt += result
         
-        print(index+1,'\t',result)
+        print('\t',index+1,'\t',result)
     return txt
 
 
