@@ -14,8 +14,6 @@ NUM = [60]
 STRONG = [32]
 
 result = []
-prev_type = None
-next_code = None
 '''
 종류:초성(쌍초성) 중성 종성(종겹받침) 약자 약어 숫자
 1. 숫자
@@ -42,13 +40,13 @@ def check_kind(index,data):
     elif data[index] in SHORT_LIST_AF:                                                                                                                                  #약자-AF
         key = data[index]
         result.append(SHORT_LIST_AF[key])
-    elif (data[index] in SHORT_LIST_BE) and ((data[index+1] in INITIAL_LIST) or (data[index+1] in SHORT_LIST_BE) or (data[index+1] == 0) or (data[index+1] == 60) or (data[index+1] in FINAL_LIST)):    #약자-BE
+    elif (data[index] in SHORT_LIST_BE) and ((data[index+1] in INITIAL_LIST) or (data[index+1] in SHORT_LIST_AF) or (data[index+1] in SHORT_LIST_BE) or (data[index+1] == 0) or (data[index+1] == 60) or (data[index+1] in FINAL_LIST)):    #약자-BE
         key = data[index]
         result.append(SHORT_LIST_BE[key])
                                                                                                                                                                         #초성
     elif (data[index] == STRONG) and (data[index+1] in INITIAL_LIST):                                                                                                   #초성-된소리
         index += 1; key = data[index]
-        result.append(SHORT_LIST_BE[key])
+        result.append(INITIAL_LIST[key])
 
     elif data[index] in INITIAL_LIST:                                                                                                                                   #초성
         key = data[index]
@@ -92,8 +90,8 @@ if __name__ == "__main__":
     input_data1 = [35,18,9,49,54,26,32,29,44,40,14,9,53,8,21,34,12,24,21,18,21,3,9,21,10,0,60,1,0]
     input_data2 = [0,1,14,0,35,18,9,49,54,26,32,29,44,40,14,9,53,8,21,34,12,24,21,18,21,3,9,21,10,0,60,1, 1, 1,0]
     input_data3 = [9,9,42,18,100,26,23,54,0,24,45,26,3,9,21,10,60,17,0]
-
+    input_data4 = [12,4,12,4,29,0,14,9,42,0,26,18,0,17,46,29,0,35,21,10,46,21,0,7,2,8,37,21,32,32,14,32,32,32,42,3,9,21,10,0]
     print('input\t','index\t','value')
-    txt = trans_data2(input_data3)
+    txt = trans_data2(input_data4)
     print('----------------------------------------')
     print('result:',txt)
