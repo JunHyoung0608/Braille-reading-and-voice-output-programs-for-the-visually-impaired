@@ -42,7 +42,7 @@ def check_kind(index,data):
     elif data[index] in SHORT_LIST_AF:                                                                                                                                  #약자-AF
         key = data[index]
         result.append(SHORT_LIST_AF[key])
-    elif (data[index] in SHORT_LIST_BE) and ((data[index+1] in INITIAL_LIST) or (data[index+1] in SHORT_LIST_BE) or (data[index+1] == 0) or (data[index+1] == NUM)):    #약자-BE
+    elif (data[index] in SHORT_LIST_BE) and ((data[index+1] in INITIAL_LIST) or (data[index+1] in SHORT_LIST_BE) or (data[index+1] == 0) or (data[index+1] == 60) or (data[index+1] in FINAL_LIST)):    #약자-BE
         key = data[index]
         result.append(SHORT_LIST_BE[key])
                                                                                                                                                                         #초성
@@ -89,10 +89,11 @@ def trans_data2(input_data):
 
     
 if __name__ == "__main__":
-    input_data = [35,18,9,49,54,26,32,29,44,40,14,9,53,8,21,34,12,24,21,18,21,3,9,21,10,0,60,1,0]
+    input_data1 = [35,18,9,49,54,26,32,29,44,40,14,9,53,8,21,34,12,24,21,18,21,3,9,21,10,0,60,1,0]
     input_data2 = [0,1,14,0,35,18,9,49,54,26,32,29,44,40,14,9,53,8,21,34,12,24,21,18,21,3,9,21,10,0,60,1, 1, 1,0]
+    input_data3 = [9,9,42,18,100,26,23,54,0,24,45,26,3,9,21,10,60,17,0]
 
     print('input\t','index\t','value')
-    txt = trans_data2(input_data2)
+    txt = trans_data2(input_data3)
     print('----------------------------------------')
     print('result:',txt)
