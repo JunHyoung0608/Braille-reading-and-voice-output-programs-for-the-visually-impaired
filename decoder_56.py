@@ -1,205 +1,97 @@
-#5/10 12:16am
-#고민해볼것 : 모음 2번(똑같이 if문으로 제한)/ 12: ㅆ 고민 / index 고민(pop말고 del로 해결 완료)
-#현재 문제 : 약자 BE, 숫자, 약어
 
-INITIAL_LIST = {8: 'ㄱ', 9: 'ㄴ', 10: 'ㄷ', 16: 'ㄹ', 17: 'ㅁ', 24: 'ㅂ', 32: 'ㅅ', 40: 'ㅈ', 48: 'ㅊ', 11: 'ㅋ', 19: 'ㅌ', 25: 'ㅍ', 26: 'ㅎ'}
-NEUTRALITY_LIST = {35: 'ㅏ', 28: 'ㅑ', 14: 'ㅓ', 49: 'ㅕ', 37: 'ㅗ', 44: 'ㅛ', 13: 'ㅜ', 41: 'ㅠ', 42: 'ㅡ', 21: 'ㅣ', 23: 'ㅐ', 29: 'ㅔ', 12: 'ㅖ', 39: 'ㅘ', 61: 'ㅚ', 15: 'ㅝ', 58: 'ㅢ'}
-FINAL_LIST = {1: 'ㄱ', 18: 'ㄴ', 20: 'ㄷ', 2: 'ㄹ', 34: 'ㅁ', 3: 'ㅂ', 4: 'ㅅ', 54: 'ㅇ', 5: 'ㅈ', 6: 'ㅊ', 22: 'ㅋ', 38: 'ㅌ', 50: 'ㅍ', 52: 'ㅎ', 12: 'ㅆ'}
-AND_LIST = {14: '그래서', 9: '그러나', 18: '그러면', 34: '그러므로', 29: '그런데', 37: '그리고', 49: '그리하여'}
-NUM_LIST = {1: '1', 3: '2', 9: '3', 25: '4', 17: '5', 11: '6', 27: '7', 19: '8', 10: '9', 26: '0'}
-SHORT_LIST_BE = {43: '가', 9: '나', 10: '다', 17: '마', 24: '바', 7: '사', 40: '자', 11: '카', 19: '타', 25: '파', 26: '하'}
-SHORT_LIST_AF = {57: '억', 62: '언', 30: '얼', 33: '연', 51: '열', 59: '영', 45: '옥', 55: '온', 63: '옹', 27: '운', 47: '울', 53: '은', 46: '을', 31: '인'}
+INITIAL_LIST = {8: 0x1100, 9: 0x1102, 10: 0x1103, 16: 0x1105, 17: 0x1106, 24: 0x1107, 32:0x1109 , 40: 0x110C, 48: 0x110E, 11: 0x110F, 19: 0x1110, 25: 0x1111, 26: 0x1112}
+NEUTRALITY_LIST = {35: 0x1161, 28: 0x1163, 14: 0x1165, 49: 0x1167, 37:0x1169, 44: 0x116D, 13: 0x116E, 41: 0x1172, 42: 0x1173, 21: 0x1175, 23: 0x1162, 29: 0x1166 , 12: 0x1168, 39: 0x116A, 61:0x116C, 15: 0x116F, 58: 0x1174}
+FINAL_LIST = {1: 0x11A8, 18: 0x11AB, 20: 0x11AE, 2: 0x11AF, 34: 0x11B7, 3: 0x11B8, 4: 0x11BA, 54: 0x11BC, 5: 0x11BD, 6: 0x11BE, 22: 0x11BF, 38: 0x11C0, 50: 0x11C1, 52: 0x11C2}
+AND_LIST = {14: '\uADF8\uB7EC\uC6B4\uC81C', 9: '\uADF8\uB77C\uC5D0', 18: '\uADF8\uB77C\uC774\uB2E4', 34: '\uADF8\uB77C\uC6E8\uC774\uB2E4', 29: '\uADF8\uB798\uB3C4', 37: '\uADF8\uB9AC\uB4DC\uC640', 49: '\uADF8\uB9AC\uC544\uC758\uC640'}
+NUM_LIST = {1: 0x0031, 3: 0x0032, 9: 0x0033, 25: 0x0034, 17: 0x0035, 11: 0x0036, 27: 0x0037, 19: 0x0038, 10: 0x0039, 26: 0x0030}
+SHORT_LIST_BE = {43: 0xAC00, 9: 0xB098, 10: 0xB2E4, 17: 0xBC14, 24: 0xBC14, 7: 0xC0AC, 40: 0xC790, 11: 0xCE74, 19: 0xD0C0, 25: 0xD30C, 26: 0xD558}
+SHORT_LIST_AF = {57: 0xC5B5, 62: 0xC5B8, 30: 0xC5BC, 33: 0xC5D0, 51: 0xC5F0, 59: 0xC601, 45: 0xC625, 55: 0xC628, 63: 0xC639, 27: 0xC740, 47: 0xC758, 53: 0xC740, 46: 0xC744, 31: 0xC778}
+JUMP = {0:'J'}
 JUMP = {0:'J'}
 NUM = [60]
-SAME = [32]
-DIR = [36] # 모음 + 모음이 왔을때 따로 쓰이는 붙임법/가운데 36 들어오면 따로 쓰인다. 
-# ㅑ,ㅐ -> ㅒ, ㅝ,ㅐ ->ㅞ, ㅘ,ㅐ -> ㅙ, ㅜ,ㅐ -> ㅟ / 붙어있으면 ㅒ,ㅞ,ㅙ,ㅟ로 읽히게 한다. 
-
-input_data = [0,1,14,0,35,18,9,49,54,26,32,29,44,40,14,9,53,8,21,34,12,24,21,18,21,3,9,21,10,43,3,4,39,23,60,1,1,1,0]
+STRONG = [32]
 
 result = []
-prev_type = None
-next_code = None
-prev_code = None
+'''
+종류:초성(쌍초성) 중성 종성(종겹받침) 약자 약어 숫자
+1. 숫자
+2. 약어
+3. 약자A -> 약자B
+4. 된소리 -> 초성
+5. 중성
+6. 종성(종겹받침)
+'''
 
-#enumerate : 반복 순회함수 , i = 현재 인덱스, next_code = 다음 인덱스, prev_code = 이전 인덱스
-for i, code in enumerate(input_data):
-    if i < len(input_data) - 1:
-        next_code = input_data[i + 1]
-    else:
-        next_code = None
-    
-    if i > 0:
-        prev_code = input_data[i - 1]
-    else:
-        prev_code = None
-
-    #if code in NUM: #숫자
-    #    while input_data[i+1] != 0:
-    #        i += 1 
-    #        key = input_data[i]
-    #        result.append(NUM_LIST[key])
-    #        del input_data[i]
-
-
-    if code == 60: #숫자
-        end_index = i + 1
-        while end_index < len(input_data) and input_data[end_index] != 0:
-            end_index += 1
-        result.extend([NUM_LIST[key] for key in input_data[i + 1:end_index]])
-        del input_data[i + 1:end_index]
-        i += 1  # 현재 숫자 뒤에 있는 0도 삭제해야 하므로 인덱스 증가
-
-    elif (input_data[i] == 1) and (input_data[i-1] == 0) and (input_data[i+1] in AND_LIST) and (input_data[i+2] == 0):
-        i += 1; key = input_data[i]
-        del input_data[i]
+def check_kind(index,data):
+    result = []
+                                                                                                                                                                        #숫자
+    if data[index] == 60:
+        while data[index+1] != 0:
+            index += 1; key = data[index]
+            print(key)
+            result.append(NUM_LIST[key])
+                                                                                                                                                                        #약어
+    elif (data[index] == 1) and (data[index-1] == 0) and (data[index+1] in AND_LIST) and (data[index+2] == 0):
+        index += 1; key = data[index]
         result.append(AND_LIST[key])
-    
-    elif code in INITIAL_LIST or code in SHORT_LIST_BE: # 초성 
-        if next_code in NEUTRALITY_LIST or next_code in SHORT_LIST_AF: # 중성과 약어 앞에 올 경우
-            result.append(INITIAL_LIST[code])
-        elif code == 32 and next_code in [8,10,24,32,40]: #현재 숫자가 32이면서 뒤에 5개의 숫자가 오면 ㄲ,ㄸ,ㅃ,ㅆ,ㅉ로 출력해라 
-            input_data.pop(code)
-            if next_code == 8:
-                del input_data[i]
-                result.append('ㄲ')
-            elif next_code == 10:
-                del input_data[i]
-                result.append('ㄸ')
-            elif next_code == 24:
-                del input_data[i]
-                result.append('ㅃ')
-            elif next_code == 32:
-                del input_data[i]
-                result.append('ㅆ')
-            elif next_code == 40:
-                del input_data[i]
-                result.append('ㅉ')
-        elif next_code not in NEUTRALITY_LIST or next_code in FINAL_LIST:
-            result.append(SHORT_LIST_BE[code])
+                                                                                                                                                                        #약자
+    elif data[index] in SHORT_LIST_AF:                                                                                                                                  #약자-AF
+        key = data[index]
+        result.append(SHORT_LIST_AF[key])
+    elif (data[index] in SHORT_LIST_BE) and ((data[index+1] in INITIAL_LIST) or (data[index+1] in SHORT_LIST_AF) or (data[index+1] in SHORT_LIST_BE) or (data[index+1] == 0) or (data[index+1] == 60) or (data[index+1] in FINAL_LIST)):    #약자-BE
+        key = data[index]
+        result.append(SHORT_LIST_BE[key])
+                                                                                                                                                                        #초성
+    elif (data[index] == STRONG) and (data[index+1] in INITIAL_LIST):                                                                                                   #초성-된소리
+        index += 1; key = data[index]
+        result.append(INITIAL_LIST[key])
+
+    elif data[index] in INITIAL_LIST:                                                                                                                                   #초성
+        key = data[index]
+        result.append(INITIAL_LIST[key])
+                                                                                                                                                                        #중성
+                                                                                                                                                                        #두글자 중성 추가
+    elif data[index] in NEUTRALITY_LIST:                                                                                                             
+        key = data[index]
+        if (data[index-1] not in INITIAL_LIST) or (data[index-1] == 0):
+            result.append('ㅇ')
+        result.append(NEUTRALITY_LIST[key])
+                                                                                                                                                                        #종성
+    elif (data[index] in FINAL_LIST) and (data[index+1] in FINAL_LIST):                                                                                                 #종성-곁받침
+        index += 1
+        #곁받침
+        a=1
+    elif data[index] in FINAL_LIST:                                                                                                                                   #종성
+        key = data[index]
+        result.append(FINAL_LIST[key])
+
+    elif data[index] in JUMP:                                                                                                                                           #띄어쓰기
+        result.append('p')
+
+    return index+1,result
+
+
+def trans_data5(input_data):
+    index = 0
+    txt = []
+    while len(input_data) > index:
+        print(input_data[index],end=' ')
+        index, result = check_kind(index,input_data)
+        txt += result
         
+        print('\t',index+1,'\t',result)
+    return txt
 
 
-    elif code in NEUTRALITY_LIST: #중성 
-        if prev_code not in INITIAL_LIST: # 앞에 초성이 오지 않을때 
-            if code in [28,39,15,13] and next_code == 23:
-                if code == 28 and next_code == 23:
-                    del input_data[code]
-                    del input_data[next_code]
-                    result.append('ㅇ')
-                    result.append('ㅒ')
-                elif code == 39 and next_code == 23:
-                    del input_data[code]
-                    del input_data[next_code]
-                    result.append('ㅇ')
-                    result.append('ㅞ')
-                elif code == 15 and next_code == 23:
-                    del input_data[code]
-                    del input_data[next_code]
-                    result.append('ㅇ')
-                    result.append('ㅙ')
-                elif code == 13 and next_code == 23:
-                    del input_data[code]
-                    del input_data[next_code]
-                    result.append('ㅇ')
-                    result.append('ㅟ') 
-            else:
-                result.append('ㅇ')
-                result.append(NEUTRALITY_LIST[code])
-        elif prev_code in INITIAL_LIST:
-            result.append(NEUTRALITY_LIST[code])
-   
-        elif prev_code in INITIAL_LIST: #앞에 초성 올때
-            if code in [28,39,15,13] and next_code == 23:
-                if code == 28 and next_code == 23:
-                    del input_data[code]
-                    del input_data[next_code]
-                    result.append('ㅒ')
-                elif code == 39 and next_code == 23:
-                    del input_data[code]
-                    del input_data[next_code]
-                    result.append('ㅞ')
-                elif code == 15 and next_code == 23:
-                    del input_data[code]
-                    del input_data[next_code]
-                    result.append('ㅙ')
-                elif code == 13 and next_code == 23:
-                    del input_data[code]
-                    del input_data[next_code]
-                    result.append('ㅟ')      
-            else:
-                result.append(NEUTRALITY_LIST[code])
+    
+if __name__ == "__main__":
+    input_data1 = [35,18,9,49,54,26,32,29,44,40,14,9,53,8,21,34,12,24,21,18,21,3,9,21,10,0,60,1,0]
+    input_data2 = [0,1,14,0,35,18,9,49,54,26,32,29,44,40,14,9,53,8,21,34,12,24,21,18,21,3,9,21,10,0,60,1, 1, 1,0]
+    input_data3 = [9,9,42,18,100,26,23,54,0,24,45,26,3,9,21,10,60,17,0]
+    input_data4 = [12,4,12,4,29,0,14,9,42,0,26,18,0,17,46,29,0,35,21,10,46,21,0,7,2,8,37,21,32,32,14,32,32,32,42,3,9,21,10,0]
+    input_data5 = [35,18,9,49,54,26,32,29,44,0,40,14,26,58,9,42,18,0,32,21,32,42,19,29,34,24,35,18,10,37,48,29,8,37,54,26,35,1,8,39,0,21,3,9,21,10,0]
 
-    elif code in FINAL_LIST: # 종성 
-        if code in [1,2,3,4] and next_code in [1,3,4,5,34,38,50,52]: #현재코드가 1,2,3,4중에 있으면서 다음 숫자가 저 안에 있다면
-            if code == 1 and next_code == 4:
-                del input_data[code] # 하나의 값만을 반환해야하기때문에 현재 코드와 다음 코드를 지우고
-                del input_data[next_code] # 결과값에 ㄳ 이라는 값을 하나 넣는다.
-                result.append('ㄳ')
-            elif code == 4 and next_code == 5:
-                del input_data[code]
-                del input_data[next_code] 
-                result.append('ㄵ')
-            elif code == 4 and next_code == 52:
-                del input_data[code]
-                del input_data[next_code] 
-                result.append('ㄶ')
-            elif code == 2 and next_code == 1:
-                del input_data[code]
-                del input_data[next_code]
-                result.append('ㄺ')
-            elif code == 2 and next_code == 34:
-                del input_data[code]
-                del input_data[next_code]
-                result.append('ㄻ')
-            elif code == 2 and next_code == 3:
-                del input_data[code]
-                del input_data[next_code]
-                result.append('ㄼ')
-            elif code == 2 and next_code == 4:
-                del input_data[code]
-                del input_data[next_code] 
-                result.append('ㄽ')
-            elif code == 2 and next_code == 38:
-                del input_data[code]
-                del input_data[next_code]
-                result.append('ㄾ')
-            elif code == 2 and next_code == 50:
-                del input_data[code]
-                del input_data[next_code]
-                result.append('ㄿ')
-            elif code == 2 and next_code == 52:
-                del input_data[code]
-                del input_data[next_code] 
-                result.append('ㅀ')
-            elif code == 3 and next_code == 4:
-                del input_data[code]
-                del input_data[next_code]
-                result.append('ㅄ')
-            elif code == 1 and next_code == 1:
-                del input_data[code]
-                del input_data[next_code] 
-                result.append('ㄲ')
-        elif prev_code in NEUTRALITY_LIST or next_code not in FINAL_LIST: #앞에 중성 또는 약어가 있을때, 뒤에 종성 숫자가 반복되지 않을때 
-            result.append(FINAL_LIST[code])                                                             #밑에 겹받침을 위한 제한
-        elif prev_code in SHORT_LIST_BE or next_code not in FINAL_LIST:
-            result.append(FINAL_LIST[code])   
-
-    #elif code in SHORT_LIST_BE: #약자 가,나,다 등 
-    #    if next_code in INITIAL_LIST or next_code in FINAL_LIST or next_code in SHORT_LIST_BE or next_code == 0: #만약 뒤에 초성이 오면 
-    #        result.append(SHORT_LIST_BE[code])
-    #    else:)
-    #        result.append('x')
-
-
-    elif code in SHORT_LIST_AF: #약자 억,언,얼 등 
-        if prev_code in INITIAL_LIST and next_code not in FINAL_LIST: #앞에 초성은 올 수 있지만 뒤에 종성은 올수 없음
-            result.append(SHORT_LIST_AF[code])
-        elif prev_code not in INITIAL_LIST and prev_code not in NEUTRALITY_LIST and next_code not in FINAL_LIST: #앞에 초성,종성,중성이 오지않을때
-            result.append(SHORT_LIST_AF[code]) 
-
-    elif code in JUMP: #띄어쓰기
-        result.append(JUMP[code])
-
-print(result)
-
+    print('input\t','index\t','value')
+    txt = trans_data5(input_data5)
+    print('----------------------------------------')
+    print('result:',txt)
