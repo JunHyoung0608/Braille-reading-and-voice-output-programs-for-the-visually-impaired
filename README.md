@@ -38,6 +38,10 @@
 
 ## 🏗 주요 구현 내용
 
+### 📊 Dataset
+본 프로젝트의 모델 학습에는 Roboflow를 통해 관리된 점자 데이터셋이 사용되었습니다.
+- **Dataset Link:** [Braille Dataset (Roboflow)](https://universe.roboflow.com/brailledataset/braille_dataset)
+
 ### 1. YOLOv5 기반 점자 인식
 - 실시간 객체 인식 모델인 **YOLOv5**를 활용하여 점자 유닛을 정확하게 탐지합니다.
 - 고화질 카메라 환경에서 **mAP 0.533**의 성능을 확보하여 신뢰도 높은 데이터를 추출합니다.
